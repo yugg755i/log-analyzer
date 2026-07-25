@@ -19,20 +19,19 @@ Built around a real incident response workflow: given a collection of authentica
 | Log type | Source | Actor | Notes |
 |---|---|---|---|
 | `sshd` | SSH daemon auth log | source IP | brute-force, username enumeration, breach detection |
-| `sudo` | `sudo` PAM auth failures + command execution | invoking username | reliable actor identity — sudo authenticates the caller's own password |
-| `su` | `su` PAM auth failures + successful switches | username | **failures only identify the target account**, not the caller — see caveat below |
+| `sudo` | `sudo` PAM auth failures + command execution | invoking username | reliable actor identity (sudo authenticates the caller's own password) |
+| `su` | `su` PAM auth failures + successful switches | username | **failures only identify the target account**, not the caller (see note below) |
 
 Log type is auto-detected per line from the syslog program tag (`sshd[pid]:`, `sudo:`, `su[pid]:`), so a single mixed `auth.log` containing all three works without any flag. Lines from anything else (`cron`, `systemd-logind`, etc.) are skipped. Use `--log-type sshd|sudo|su` to force one format if you need to disambiguate an unusual log or feed it a non-standard file.
 
-**Caveat on `su` failures:** a failed `su` attempt's PAM line reliably logs the *target* account (`user=root`) but the real caller (`ruser=`) is frequently blank on default PAM configs — that's a property of the log format, not a gap in this tool. In practice this means a flagged `su` actor tells you "repeated attempts to escalate to this account," not "who's doing it." `sudo` doesn't have this problem — its failure line authenticates the caller's own password, so the invoking username is always the reliable actor.
+> [!NOTE]
+> A failed `su` attempt reliably logs the *target* account, but the real caller (`ruser=`) is frequently blank on default PAM configs. That's a property of the log format, not a gap in this tool.
 
 ## Features
 
-- A command-line tool for authentication log forensic triage across `sshd`, `sudo`, and `su`
-- Parses mixed-format logs, auto-detecting the source program per line (or force one with `--log-type`)
-- Distinguishes failed, accepted, and invalid-user attempts
 - Supports individual files, directories, glob patterns, rotated logs, and `.gz` archives
 - Configurable detection thresholds via YAML configuration
+- Distinguishes failed, accepted, and invalid-user attempts
 - Time-range filtering (`--since` / `--until`)
 - Sliding-window brute-force detection, grouped by IP for `sshd` and by username for `sudo`/`su`
 - Username enumeration detection (sshd; structurally inert for sudo/su, where the actor and the username are the same field)
@@ -44,7 +43,6 @@ Log type is auto-detected per line from the syslog program tag (`sshd[pid]:`, `s
 - Assessment summary with threat level, confidence scoring, primary attack type, and MITRE ATT&CK technique mapping
 - Per-actor confidence scoring with a signal-by-signal checklist breakdown
 - Deterministic, rule-based investigation narratives (no AI/LLM-generated content), with wording that adapts to log type (logins vs. sudo authentication attempts vs. su attempts)
-- Visual timeline flow per flagged actor, plus the raw log lines behind each finding as evidence
 - Self-contained HTML incident report with inline charts, print-optimized for PDF export
 - Optional PDF export (via Playwright) alongside the HTML report
 - Optional CSV and SQLite export
@@ -85,8 +83,8 @@ just inside the repo:
 loganalyzer -h
 ```
 
-Create a `.env` file with your AbuseIPDB key (optional — the tool runs
-fine without it, it just skips threat intel enrichment):
+Create a `.env` file with your AbuseIPDB key. It's optional, the tool
+runs fine without it and just skips threat intel enrichment:
 
 ```
 ABUSEIPDB_API_KEY=your_key_here
