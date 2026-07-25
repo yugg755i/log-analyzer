@@ -170,9 +170,9 @@ def build_narrative(actor, log_type, bruteforce, username_enum, malicious_ips, t
     if breached:
         attempts = timeline["failed_attempts"]
         if log_type == "sshd":
-            sentences.append(f"{actor} gained access to this host after {attempts} failed {verb} attempt(s).")
+            sentences.append(f"{actor} gained access to this host after {attempts} failed {verb} attempt(s) across the full session.")
         else:
-            sentences.append(f"{actor} obtained {verb} privileges after {attempts} failed attempt(s).")
+            sentences.append(f"{actor} obtained {verb} privileges after {attempts} failed attempt(s) across the full session.")
     elif is_bf and is_ue:
         bf, ue = bruteforce[actor], username_enum[actor]
         sentences.append(
@@ -202,7 +202,7 @@ def build_narrative(actor, log_type, bruteforce, username_enum, malicious_ips, t
             parts.append(f"{bruteforce[actor]['count']} failed attempts")
         if is_ue:
             parts.append(f"{username_enum[actor]['distinct_usernames']} usernames tried")
-        sentences.append(f"That followed {' and '.join(parts)}.")
+        sentences.append(f"The single densest window alone included {' and '.join(parts)}.")
     elif not breached and timeline:
         sentences.append(f"No login was accepted across {timeline['total_attempts']} attempt(s).")
 
