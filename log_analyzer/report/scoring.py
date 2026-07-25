@@ -235,7 +235,7 @@ def build_executive_summary(ip_scores):
             "headline_actor_type": None,
         }
 
-    ranked = sorted(ip_scores.values(), key=lambda s: s["score"], reverse=True)
+    ranked = sorted(ip_scores.values(), key=lambda s: (-s["score"], s["actor"]))
     top = ranked[0]
 
     seen = set()

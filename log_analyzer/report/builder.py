@@ -179,7 +179,7 @@ def build_report_context(
         timeline_points[key] = _timeline_points(type_events, actor)
 
     executive_summary = build_executive_summary(ip_scores)
-    investigation_order = sorted(flagged_keys, key=lambda k: ip_scores[k]["score"], reverse=True)
+    investigation_order = sorted(flagged_keys, key=lambda k: (-ip_scores[k]["score"], ip_scores[k]["actor"]))
 
     verdict = _build_verdict(malicious_ips, combined_bruteforce, combined_username_enum)
 
