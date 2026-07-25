@@ -11,7 +11,7 @@
   --text-muted: #6b7280;
   --hi-ip: #5eb3d6;
   --hi-user: #9fd67a;
-  --hi-danger: #e5484d;
+  --hi-danger: #c9765f;
   --border: #3d4451;
   --border-subtle: #2a2f3a;
   
@@ -32,6 +32,7 @@ body {
 
 .page { max-width: 900px; margin: 0 auto; }
 
+/* Header Layout */
 header {
   display: flex;
   align-items: baseline;
@@ -46,6 +47,7 @@ header {
 
 .page-title { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 20px; }
 
+/* Executive Assessment Block */
 .assessment-block {
   background: var(--bg-alt);
   border: 1px solid var(--border);
@@ -93,7 +95,7 @@ header {
   font-weight: 600;
 }
 
-/* MITRE Section Container Box */
+/* MITRE ATT&CK Container */
 .mitre-container {
   background: var(--bg-alt);
   border: 1px solid var(--border);
@@ -147,9 +149,7 @@ header {
 }
 
 .badge.level-critical { color: var(--hi-danger); font-weight: 900; text-decoration: underline; }
-
 .badge.level-high { color: var(--text); font-weight: 700; text-decoration: none; }
-
 .badge.level-medium { color: var(--text); font-weight: 500; text-decoration: none; }
 .badge.level-low { color: var(--text-muted); font-weight: 400; text-decoration: none; }
 .badge.level-informational { color: var(--text-muted); font-weight: 400; text-decoration: none; }
@@ -186,14 +186,14 @@ section { margin-bottom: 32px; }
   margin-bottom: 12px;
 }
 
-/* Charts and Canvas Layout */
+/* Overview Chart Canvas Layout */
 .chart-row { display: flex; gap: 16px; }
 .chart-box { flex: 1 1 0; min-width: 0; }
 .chart-box .cap { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin-top: 6px; }
 .chart-container { background: var(--bg-alt); border: 1px solid var(--border); padding: 16px; width: 100%; overflow: hidden; }
 canvas { display: block; width: 100%; max-width: 100%; height: 150px; }
 
-/* Table Layouts */
+/* Forensic Tables */
 .table-block { background: var(--bg-alt); border: 1px solid var(--border); width: 100%; overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; }
 th {
@@ -205,7 +205,6 @@ td { font-family: var(--mono); font-size: 11.5px; padding: 9px 16px; border-bott
 tr:nth-child(even) td { background: var(--bg); }
 tbody tr:last-child td { border-bottom: none; }
 
-/* Table Column Cell Formats */
 td.ts { color: var(--text-muted); }
 td.ip { color: var(--hi-ip); font-weight: 600; }
 td.user { color: var(--hi-user); font-style: italic; }
@@ -220,7 +219,7 @@ td.num a:hover { color: var(--text-muted); }
 
 .empty { padding: 28px 16px; text-align: center; font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
 
-/* Top IPs Row List */
+/* Source IP Summaries */
 .ip-block { background: var(--bg-alt); border: 1px solid var(--border); }
 .ip-row { display: flex; align-items: center; padding: 9px 16px; border-bottom: 1px solid var(--border-subtle); }
 .ip-row:nth-child(even) { background: var(--bg); }
@@ -229,7 +228,7 @@ td.num a:hover { color: var(--text-muted); }
 .ip-addr { font-family: var(--mono); font-size: 12px; color: var(--hi-ip); flex: 1; font-weight: 600; }
 .ip-count { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
 
-/* Appendix Dossier Section */
+/* Findings Dossier Section */
 .appendix-title {
   font-size: 16px;
   font-weight: 700;
@@ -261,7 +260,7 @@ td.num a:hover { color: var(--text-muted); }
 
 .narrative { font-size: 13px; color: var(--text); margin-bottom: 20px; line-height: 1.6; }
 
-/* Appendix Evaluation Checklist Table */
+/* Evaluation Checklist Table */
 .checklist { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 11.5px; }
 .checklist th { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border-subtle); background: var(--bg); }
 .checklist td { padding: 6px 10px; border-bottom: 1px solid var(--border-subtle); font-family: var(--mono); }
@@ -271,46 +270,35 @@ td.num a:hover { color: var(--text-muted); }
 .checklist .met-no { color: var(--text-muted); }
 .checklist .pts { text-align: right; }
 
-/* Chronological Activity Timeline */
-.v-timeline {
-  position: relative;
-  padding-left: 20px;
-  margin-left: 10px;
-  border-left: 2px solid var(--border-subtle);
-  margin-bottom: 24px;
+.session-summary-heading {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
 }
-.v-timeline-event { position: relative; margin-bottom: 20px; }
-.v-timeline-event:last-child { margin-bottom: 0; }
-.v-timeline-dot {
-  position: absolute; left: -26px; top: 4px; width: 10px; height: 10px; border-radius: 50%;
-  background: var(--text-muted); border: 2px solid var(--bg-alt);
-}
-.v-timeline-event.event-breached .v-timeline-dot { 
-  background: var(--hi-danger); 
-  box-shadow: 0 0 0 4px rgba(229, 72, 77, 0.2);
-}
-.v-timeline-event.event-start .v-timeline-dot { background: var(--hi-ip); }
-.v-timeline-event.event-active .v-timeline-dot { background: var(--text-muted); }
-.v-timeline-meta { font-family: var(--mono); font-size: 11px; color: var(--text-muted); display: flex; gap: 12px; margin-bottom: 2px; }
-.v-timeline-time { color: var(--text); font-weight: 600; }
-.v-timeline-desc { font-size: 12.5px; color: var(--text); }
 
-/* Timeline Visual Representation Bar */
-.timeline-strip-container { margin-top: 10px; margin-bottom: 5px; }
-.timeline-strip {
-  position: relative; height: 12px; background: var(--bg);
-  border: 1px solid var(--border-subtle); border-radius: 2px; width: 100%; max-width: 500px;
+.session-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border-subtle);
+  padding: 14px 16px;
+  margin-bottom: 20px; /* Provides separation before raw logs */
 }
-.timeline-pt {
-  position: absolute; top: 2px; width: 6px; height: 6px; border-radius: 50%;
-  transform: translateX(-50%);
+.session-summary-label {
+  font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px;
 }
-.timeline-pt.pt-fail { background: var(--text-muted); }
-.timeline-pt.pt-ok { background: var(--hi-ip); box-shadow: 0 0 4px var(--hi-ip); }
+.session-summary-value { font-family: var(--mono); font-size: 12.5px; color: var(--text); }
+.session-summary-value.accepted { color: var(--hi-danger); font-weight: bold; }
 
+/* Raw Log Lines Container */
 .evidence-label { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px; }
 
-/* Raw Log Evidence Block */
 .evidence-block {
   background: var(--bg); border: 1px solid var(--border-subtle); padding: 10px 12px;
   font-family: var(--mono); font-size: 10.5px; color: var(--text-muted); overflow-x: auto;
@@ -587,7 +575,9 @@ footer {
     {% for key in ctx.investigation_order %}
     {% set s = ctx.ip_scores[key] %}
     {% set t = ctx.timelines.get(key) %}
-    
+    {% set points = ctx.timeline_points.get(key, []) %}
+    {% set last_status = points[-1].status if points else None %}
+
     <div class="appendix-section" id="finding-{{ loop.index }}">
       <div class="appendix-section-header">
         <span class="appendix-section-ip">Finding #{{ loop.index }}: Details for {{ s.actor }} <span style="font-size:11px;color:var(--text-muted);font-weight:400;">({{ s.log_type }})</span></span>
@@ -598,12 +588,13 @@ footer {
 
       <div class="narrative">{{ ctx.narratives[key] }}</div>
 
+      <!-- Signal Checklist -->
       <table class="checklist">
         <thead><tr><th>Signal</th><th>Detail</th><th class="pts">Points</th></tr></thead>
         <tbody>
           {% for row in s.checklist %}
           <tr>
-            <td class="{% if row.met %}met-yes{% else %}met-no{% endif %}">{% if row.met %}&#10003;{% else %}&#8212;{% endif %} {{ row.signal }}</td>
+            <td class="{% if row.met %}met-yes{% else %}met-no{% endif %}">{% if row.met %}+{% else %}&#8212;{% endif %} {{ row.signal }}</td>
             <td>{{ row.detail }}</td>
             <td class="pts">{{ row.points }}</td>
           </tr>
@@ -611,66 +602,33 @@ footer {
         </tbody>
       </table>
 
+      <!-- Session Summary Metrics -->
       {% if t %}
-      <div style="margin-top: 20px; margin-bottom: 12px; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted);">
-        Activity Timeline
+      <div class="session-summary-heading">
+        Session Summary (Full Session)
       </div>
-      <div class="v-timeline">
-        
-        <div class="v-timeline-event event-start">
-          <div class="v-timeline-dot"></div>
-          <div class="v-timeline-meta">
-            <span class="v-timeline-time">{{ t.first_seen }}</span>
-            <span>First seen</span>
-          </div>
-          <div class="v-timeline-desc">
-            First request from this host. <strong>{{ t.unique_usernames }}</strong> distinct username(s) targeted over the full window.
-          </div>
+      <div class="session-summary">
+        <div>
+          <div class="session-summary-label">First seen</div>
+          <div class="session-summary-value">{{ t.first_seen }}</div>
         </div>
-
-        {% if t.failed_attempts > 0 %}
-        <div class="v-timeline-event event-active">
-          <div class="v-timeline-dot"></div>
-          <div class="v-timeline-meta">
-              <span class="v-timeline-time">Failed attempts</span>
-          </div>
-          <div class="v-timeline-desc">
-            <strong>{{ t.failed_attempts }}</strong> failed attempts.
-            
-            {% set points = ctx.timeline_points.get(key, []) %}
-            {% if points %}
-            <div class="timeline-strip-container">
-              <div class="timeline-strip">
-                {% for pt in points %}
-                <div class="timeline-pt {% if pt.status == 'Accepted' %}pt-ok{% else %}pt-fail{% endif %}" style="left: {{ pt.offset_pct }}%;"></div>
-                {% endfor %}
-              </div>
-            </div>
-            {% endif %}
-          </div>
+        <div>
+          <div class="session-summary-label">Failed attempts</div>
+          <div class="session-summary-value">{{ t.failed_attempts }}</div>
         </div>
-        {% endif %}
-
-        <div class="v-timeline-event {% if t.breached %}event-breached{% endif %}">
-          <div class="v-timeline-dot"></div>
-          <div class="v-timeline-meta">
-            <span class="v-timeline-time">{{ t.last_seen }}</span>
-            <span>Last seen</span>
-          </div>
-          <div class="v-timeline-desc">
-            {% if t.breached %}
-            <span style="color: var(--hi-danger); font-weight: bold;">Login accepted</span> after the failures above.
-            {% else %}
-            <span style="color: var(--text-muted); font-weight: bold;">No login accepted.</span>
-            {% endif %}
+        <div>
+          <div class="session-summary-label">Last seen</div>
+          <div class="session-summary-value {% if last_status == 'Accepted' %}accepted{% endif %}">
+            {{ t.last_seen }}{% if last_status == 'Accepted' %} — login accepted{% elif t.breached %} — not accepted (earlier login was){% else %} — no login accepted{% endif %}
           </div>
         </div>
       </div>
       {% endif %}
 
+      <!-- Raw Log Evidence -->
       {% set lines = ctx.evidence.get(key, []) %}
       {% if lines %}
-      <div class="evidence-label">Raw log lines</div>
+      <div class="evidence-label">Raw Log Lines (Flagged Window)</div>
       <div class="evidence-block">
         {% for line in lines %}<span class="ev-line">{{ line }}</span>{% endfor %}
       </div>
@@ -685,6 +643,7 @@ footer {
 
 </div>
 
+<!-- HTML5 Canvas Rendering Scripts -->
 <script>
   const hourly = {{ hourly_json | safe }};
   const topIps = {{ top_ip_json | safe }};
