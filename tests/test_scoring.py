@@ -74,7 +74,8 @@ def test_build_narrative_mentions_bruteforce_and_breach():
 
     assert "1.1.1.1" in narrative
     assert "gained access" in narrative
-    assert "That followed 10 failed attempts." in narrative
+    assert "across the full session" in narrative
+    assert "The single densest window alone included 10 failed attempts." in narrative
 
 
 def test_build_narrative_uses_sudo_specific_wording():
@@ -122,3 +123,14 @@ def test_build_executive_summary_empty_when_nothing_flagged():
     assert summary["threat_level"] == "Informational"
     assert summary["headline_ip"] is None
     assert summary["mitre_techniques"] == []
+
+
+def test_build_executive_summary_breaks_ties_deterministically_by_actor():
+    ip_scores = {
+        "9.9.9.9": score_ip("9.9.9.9", "sshd", {"9.9.9.9": {"count": 10, "window_start": "x", "window_end": "y"}}, {}, {"9.9.9.9": {"abuseConfidenceScore": 90, "totalReports": 5}}, None),
+        "1.1.1.1": score_ip("1.1.1.1", "sshd", {"1.1.1.1": {"count": 10, "window_start": "x", "window_end": "y"}}, {}, {"1.1.1.1": {"abuseConfidenceScore": 90, "totalReports": 5}}, None),
+        "5.5.5.5": score_ip("5.5.5.5", "sshd", {"5.5.5.5": {"count": 10, "window_start": "x", "window_end": "y"}}, {}, {"5.5.5.5": {"abuseConfidenceScore": 90, "totalReports": 5}}, None),
+    }
+    for _ in range(5):
+        summary = build_executive_summary(ip_scores)
+        assert summary["headline_ip"] == "1.1.1.1"
